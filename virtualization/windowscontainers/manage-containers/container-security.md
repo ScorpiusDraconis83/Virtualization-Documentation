@@ -1,15 +1,15 @@
 ---
 title: Secure Windows containers
 description: Learn how to define the security boundaries of Windows containers.
-author: brasmith
-ms.author: brasmith
-ms.date: 03/23/2020
+author: meaghanlewis
+ms.author: mosagie
+ms.date: 01/23/2025
 ms.topic: conceptual
 ms.assetid:
 ---
 # Secure Windows containers
 
-> Applies to: Windows Server 2022, Windows Server 2019, Windows Server 2016
+> Applies to: Windows Server 2025, Windows Server 2022, Windows Server 2019, Windows Server 2016
 
 Containers lend their reduced image size to the fact that they can rely on the host to provide limited access to various resources. If the container knows that the host will be able to provide the functionality needed to perform a specific set of actions, then the container does not need to include the relevant software in its base image. The extent of resource sharing that occurs, however, can have a significant impact on both the performance and security of the container. If too many resources are shared, then the application may as well just run as a process on the host. If the resources are shared too little, then the container becomes indistinguishable from a VM. Both configurations are applicable to many scenarios, but most people using containers generally opt for something in the middle.
 
@@ -55,3 +55,11 @@ Alternatively, you can create a new user:
 RUN net user username ‘<password>’ /ADD
 USER username
 ```
+
+## Windows services
+
+Microsoft Windows services, formerly known as NT services, enable you to create long-running executable applications that run in their own Windows sessions. These services can be automatically started when the operating system starts, can be paused and restarted, and do not show any user interface. You can also run services in the security context of a specific user account that is different from the logged-on user or the default computer account. 
+
+When containerizing and securing a workload that runs as a Windows service there are a few additional considerations to be aware of. First, the `ENTRYPOINT` of the container is not going to be the workload since the service runs as a background process, typically the `ENTRYPOINT` will be a tool like [service monitor](https://github.com/microsoft/IIS.ServiceMonitor)) or [log monitor](https://github.com/microsoft/windows-container-tools/tree/main/LogMonitor)). Second, the security account that the workload operates under will be configured by the service not by the USER directive in the dockerfile. You can check what account the service will run under by running `Get-WmiObject win32_service -filter "name='<servicename>'" | Format-List StartName`.
+
+For example, when hosting an IIS web application using the ASP.NET ([Microsoft Artifact Registry](https://mcr.microsoft.com/en-us/product/dotnet/framework/aspnet/about)) image the `ENTRYPOINT` of the container is `"C:\\ServiceMonitor.exe", "w3svc"`. This tool can be used to configure the IIS service and then monitors the service to ensure that it remains running and exits, thus stopping the container, if the service stops for any reason. By default, the IIS service and thus the web application run under a low privilege account within the container, but the service monitor tool requires administrative privileges to configure and monitor the service. 

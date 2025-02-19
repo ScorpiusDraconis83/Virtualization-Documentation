@@ -1,10 +1,10 @@
 ---
 title: Schema in Different Languages
 description: Schema in Different Languages
-author: faymeng
-ms.author: mabrigg
+author: sethmanheim
+ms.author: roharwoo
 ms.topic: reference
-ms.prod: virtualization
+ms.service: virtualization
 ms.date: 06/09/2021
 api_name:
 - Schema in Different Languages

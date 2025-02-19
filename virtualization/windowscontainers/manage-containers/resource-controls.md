@@ -1,15 +1,15 @@
 ---
 title: Implementing resource controls
 description: Details regarding resource controls for Windows containers.
-author: taylorb-microsoft
-ms.author: jgerend
-ms.date: 08/12/2020
+author: meaghanlewis
+ms.author: mosagie
+ms.date: 01/23/2025
 ms.topic: conceptual
 ms.assetid: 8ccd4192-4a58-42a5-8f74-2574d10de98e
 ---
 # Implementing resource controls for Windows containers
 
-> Applies to: Windows Server 2022, Windows Server 2019
+> Applies to: Windows Server 2025, Windows Server 2022, Windows Server 2019
 
 There are several resource controls that can be implemented on a per-container and per-resource basis.  By default, containers run are subject to typical Windows resource management, which in general is fair-share based but though configuration of these controls a developer or administrator can limit or influence resource usage.  Resources that can be controlled include: CPU/Processor, Memory/RAM, Disk/Storage and Networking/Throughput.
 
@@ -64,7 +64,7 @@ For each resource this section provides a mapping between the Docker command lin
 
 | Resource | Location |
 |---|---|
-| Docker interface | [--io-maxbandwidth/--io-maxiops](https://docs.docker.com/edge/engine/reference/commandline/run/#usage) |
+| Docker interface | [--io-maxbandwidth/--io-maxiops](https://docs.docker.com/engine/reference/commandline/cli/) |
 | HCS interface | [StorageIOPSMaximum and StorageBandwidthMaximum](https://github.com/Microsoft/hcsshim/blob/b144c605002d4086146ca1c15c79e56bfaadc2a7/interface.go#L67) |
 | Shared Kernel | [JOBOBJECT_IO_RATE_CONTROL_INFORMATION](/windows/desktop/api/jobapi2/ns-jobapi2-jobobject_io_rate_control_information) |
 | Hyper-V isolation | [JOBOBJECT_IO_RATE_CONTROL_INFORMATION](/windows/desktop/api/jobapi2/ns-jobapi2-jobobject_io_rate_control_information) |
@@ -73,7 +73,7 @@ For each resource this section provides a mapping between the Docker command lin
 
 | Resource | Location |
 |---|---|
-| Docker interface | [--storage-opt size=](https://docs.docker.com/edge/engine/reference/commandline/run/#set-storage-driver-options-per-container) |
+| Docker interface | [--storage-opt size=](https://docs.docker.com/compose/compose-file/05-services/#storage_opt) |
 | HCS interface | [StorageSandboxSize](https://github.com/Microsoft/hcsshim/blob/b144c605002d4086146ca1c15c79e56bfaadc2a7/interface.go#L67) |
 | Shared Kernel | [JOBOBJECT_IO_RATE_CONTROL_INFORMATION](/windows/desktop/api/jobapi2/ns-jobapi2-jobobject_io_rate_control_information) |
 | Hyper-V isolation | [JOBOBJECT_IO_RATE_CONTROL_INFORMATION](/windows/desktop/api/jobapi2/ns-jobapi2-jobobject_io_rate_control_information) |

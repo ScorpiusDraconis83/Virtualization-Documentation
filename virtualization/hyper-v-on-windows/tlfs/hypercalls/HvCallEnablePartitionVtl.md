@@ -6,7 +6,6 @@ author: alexgrest
 ms.author: hvdev
 ms.date: 10/15/2020
 ms.topic: reference
-ms.prod: windows-10-hyperv
 ---
 
 # HvCallEnablePartitionVtl
@@ -16,7 +15,6 @@ The HvCallEnablePartitionVtl hypercall enables a virtual trust level for a speci
 ## Interface
 
  ```c
-
 typedef union
 {
     UINT8 AsUINT8;

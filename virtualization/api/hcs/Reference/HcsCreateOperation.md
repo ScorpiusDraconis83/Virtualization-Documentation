@@ -1,10 +1,10 @@
 ---
 title: HcsCreateOperation
 description: HcsCreateOperation
-author: faymeng
-ms.author: mabrigg
+author: sethmanheim
+ms.author: roharwoo
 ms.topic: reference
-ms.prod: virtualization
+ms.service: virtualization
 ms.date: 06/09/2021
 api_name:
 - HcsCreateOperation
@@ -26,20 +26,20 @@ Creates a new operation.
 ```cpp
 HCS_OPERATION WINAPI
 HcsCreateOperation(
-    _In_opt_ HCS_OPERATION_COMPLETION callback
     _In_opt_ void*                    context
+    _In_opt_ HCS_OPERATION_COMPLETION callback
     );
 ```
 
 ## Parameters
 
-`callback`
-
-Optional pointer to an [`HCS_OPERATION_COMPLETION`](./HCS_OPERATION_COMPLETION.md) callback to be invoked when the operation completes.
-
 `context`
 
 Optional pointer to a context that is passed to the callback.
+
+`callback`
+
+Optional pointer to an [`HCS_OPERATION_COMPLETION`](./HCS_OPERATION_COMPLETION.md) callback to be invoked when the operation completes.
 
 ## Return Values
 

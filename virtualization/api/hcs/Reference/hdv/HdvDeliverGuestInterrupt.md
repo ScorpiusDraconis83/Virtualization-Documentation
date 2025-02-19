@@ -2,9 +2,8 @@
 title: HdvDeliverGuestInterrupt
 description: HdvDeliverGuestInterrupt
 author: sethmanheim
-ms.author: sethm
+ms.author: roharwoo
 ms.topic: reference
-ms.prod: virtualization
 ms.date: 06/09/2021
 api_name:
 - HdvDeliverGuestInterrupt
@@ -56,6 +55,6 @@ HdvDeliverGuestInterrupt(
 | **Minimum supported client** | Windows 10, version 1607 |
 | **Minimum supported server** | Windows Server 2016 |
 | **Target Platform** | Windows |
-| **Library** | ComputeCore.ext |
-| **Dll** | ComputeCore.ext |
+| **Library** | ComputeCore.lib |
+| **Dll** | ComputeCore.dll |
 |    |    |

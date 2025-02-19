@@ -3,10 +3,9 @@ title: Run Hyper-V in a Virtual Machine with Nested Virtualization
 description: Learn about how to use nested virtualization to run Hyper-V in a virtual machine to emulate configurations that normally require multiple hosts.
 keywords: windows 10, windows 11, hyper-v
 author: johncslack
-ms.author: wscontent
+ms.author: roharwoo
 ms.date: 07/14/2023
 ms.topic: article
-ms.prod: windows-10-hyperv
 ms.assetid: 68c65445-ce13-40c9-b516-57ded76c1b15
 ---
 
@@ -30,6 +29,7 @@ To learn more about Nested Virtualization and supported scenarios, see [What is 
 
 >[!NOTE]
 > The guest can be any Windows supported guest operating system. Newer Windows operating systems may support enlightenments that improve performance.
+> To enable Nested Virtualization in an Azure VM, make sure to set Security Type as **"Standard"**.
 
 ## Configure Nested Virtualization
 
@@ -43,7 +43,7 @@ To learn more about Nested Virtualization and supported scenarios, see [What is 
 
 1. Start the virtual machine.
 
-1. Install Hyper-V within the virtual machine, just like you would for a physical server. For more information on installing Hyper-V, see, [Install Hyper-V](../quick-start/enable-hyper-v.md).
+1. Install Hyper-V within the virtual machine, just like you would for a physical server. For more information on installing Hyper-V, see, [Install Hyper-V](/windows-server/virtualization/hyper-v/get-started/install-hyper-v).
 
 >[!NOTE]
 > When using Windows Server 2019 as the first level VM, the number of vCPUs should be 225 or less.

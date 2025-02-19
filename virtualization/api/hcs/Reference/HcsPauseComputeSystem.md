@@ -1,10 +1,10 @@
 ---
 title: HcsPauseComputeSystem
 description: HcsPauseComputeSystem
-author: faymeng
-ms.author: mabrigg
+author: sethmanheim
+ms.author: roharwoo
 ms.topic: reference
-ms.prod: virtualization
+ms.service: virtualization
 ms.date: 06/09/2021
 api_name:
 - HcsPauseComputeSystem
@@ -24,7 +24,6 @@ Pauses the execution of a compute system, see [sample code](./ComputeSystemSampl
 ## Syntax
 
 ```cpp
-
 HRESULT WINAPI
 HcsPauseComputeSystem(
     _In_ HCS_SYSTEM computeSystem,

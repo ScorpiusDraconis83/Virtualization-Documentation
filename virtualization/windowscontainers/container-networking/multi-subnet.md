@@ -1,15 +1,15 @@
 ---
 title: Multiple subnet support for worker nodes in Windows containers with Calico for Windows
 description: Learn about using multiple subnets with Windows containers using Calico.
-author: v-susbo
-ms.author: mabrigg
-ms.date: 08/10/2021
+author: sethmanheim
+ms.author: mosagie
+ms.date: 01/22/2025
 ms.topic: conceptual
 ---
 
 # Multiple subnet support in Host Networking Service
 
-> Applies to: Windows Server 2022
+> Applies to: Windows Server 2025, Windows Server 2022
 
 Using multiple subnets per network is now supported in Host Networking Service (HNS) for Windows containers. Previously, HNS restricted Kubernetes container endpoint configurations to use only the prefix length of the underlying subnet. HNS has been enhanced so you can use more restrictive subnets, such as subnets with a longer prefix length, as well as multiple subnets per Windows worker node. The first Container Networking Interface (CNI) that can this functionality is Calico for Windows. Calico Network Policies is an open-source network and network security solution founded by [Tigera](https://www.tigera.io/).
 
@@ -30,7 +30,7 @@ Calico's IPAM function is designed to allocate IP addresses to workloads on-dema
 - Use an IP pool per stack tier where front-end pods get IPs from a front-end pool (which could be public), but back-end pods (potentially on the same host) receive IPs from a different range. This allows Calico to fit in with aggressive network partitioning requirements (as may be needed to work with legacy firewalls).
 - Use very small micro pools, one for each tier of a stack. Since these pools are so small, they require each host to support workloads from multiple pools.
 
- IPs are always allocated from blocks, and those blocks can be affine to a particular host. A host will always try to assign IPs from one of its own affine blocks if there is space (and only if the block is from an allowed pool for the given workload). If none of the host’s existing blocks have space, the host will try to claim a new block from an allowed pool. If no empty blocks are available, the host will borrow an IP from any block in an allowed pool that has free space available, even if that block is affine to another host.
+ IPs are always allocated from blocks, and those blocks can be affine to a particular host. A host will always try to assign IPs from one of its own affine blocks if there is space (and only if the block is from an allowed pool for the given workload). If none of the host's existing blocks have space, the host will try to claim a new block from an allowed pool. If no empty blocks are available, the host will borrow an IP from any block in an allowed pool that has free space available, even if that block is affine to another host.
 
 Calico relies on the _longest prefix match routing_ to support aggregation. Each host advertises routes for all its affine blocks and advertises /32 routes for any IPs that it has borrowed. Since a /32 route is more specific, remote hosts that need to forward to the /32 will use the /32 route instead of the broader /26 route to the host with the affine block.
 
@@ -45,7 +45,7 @@ There are several Calico connectivity and policy requirements to enable multiple
   - Access control list (ACL) egress and ingress policies must apply.
   - Both the egress policy of the sending pod and the ingress policy of the receiving pod must allow the traffic.
   - All Calico-programmed ACL rules should be able to view pod IPs.
- - Hosts and pods must be able to reach each other, and to reach pods on other hosts over routes learned over the Border Gateway Protocol (BGP).
+- Hosts and pods must be able to reach each other, and to reach pods on other hosts over routes learned over the Border Gateway Protocol (BGP).
 
 ### Multiple IP blocks per host requirements
 
@@ -58,7 +58,7 @@ To support multiple IP blocks per host, review the following requirements:
 
 ### Requirements to support IP borrowing
 
-Calico IPAM allocates IPs to host in blocks for aggregation purposes. If the IP pool is full, nodes can also _borrow_ IPs from another node’s block. In BGP terms, the borrower then advertises a more specific /32 route for the borrowed IP and then traffic for that IP is routed to the borrowing host.
+Calico IPAM allocates IPs to host in blocks for aggregation purposes. If the IP pool is full, nodes can also _borrow_ IPs from another node's block. In BGP terms, the borrower then advertises a more specific /32 route for the borrowed IP and then traffic for that IP is routed to the borrowing host.
 
 Windows nodes do not support this borrowing mechanism. They won't borrow IPs even if the IP pool is full, and they mark their blocks so that Linux nodes will also not borrow from them.
 
@@ -83,9 +83,9 @@ The following steps explain how to create a subnet and an IP subnet using exampl
 
    ```powershell
    New-HnsSubnet -NetworkID $net1.ID -Subnets @{
-	   "IpAddressPrefix"="172.16.0.0/16";
-	   "Routes"=@(@{"NextHop"="172.16.0.1";"DestinationPrefix"="0.0.0.0"});
-	   "IpSubnets"=@(@{"IpAddressPrefix"="172.16.1.0/24"})
+       "IpAddressPrefix"="172.16.0.0/16";
+       "Routes"=@(@{"NextHop"="172.16.0.1";"DestinationPrefix"="0.0.0.0"});
+       "IpSubnets"=@(@{"IpAddressPrefix"="172.16.1.0/24"})
    ```
 
 3. To add a new 172.16.2.0/24 IP subnet to the 172.16.0.0/16 subnet, run the following command:
